@@ -10,24 +10,17 @@
 pollutantmean <- function(directory, pollutant, id = 1:332) {
   ## 'directory' is a character vector of length 1 indicating
   ## the location of the CSV files
-  if(!file.exists(directory)){
-    stop("Directory doesn't exist. Double check")
-  }
   
-  if(pollutant!="nitrate" & pollutant!="sulfate"){
-    stop(paste("Pollutant must be either sulfate or nitrate. You wrote",pollutant))
-  }
   ## 'pollutant' is a character vector of length 1 indicating
   ## the name of the pollutant for which we will calculate the
   ## mean; either "sulfate" or "nitrate".
   
-  specdata <- dir(directory, pattern = ".csv",header=TRUE,recursive = TRUE)[id]
+  specdata <- dir(directory, pattern = ".csv", recursive = TRUE)[id]
   sub.specdata <- lapply(specdata, read.csv, header = TRUE, sep = ",")
-  results <- unlist(lapply(sub.specdata,"[[",pollutant))
-  # results <- unlist(lapply(infiles, function(f){
-  #f[, pollutant]
+  results <- unlist(lapply(sub.specdata, function(f){
+  f[, pollutant]
   }))
-  return(mean(res,na.rm = TRUE))
+  return(mean(results,na.rm = TRUE))
   
 
   ## 'id' is an integer vector indicating the monitor ID numbers
@@ -35,11 +28,4 @@ pollutantmean <- function(directory, pollutant, id = 1:332) {
   
   ## Return the mean of the pollutant across all monitors list
   ## in the 'id' vector (ignoring NA values)
-
-#   return(mean)
 }
-
-
-> pollutantmean("specdata", "sulfate", 1:10)
-Error in getwd("/Users/bterebieniec/Desktop/coursera0415/week2/ass1/specdata/") :
-unused argument ("/Users/bterebieniec/Desktop/coursera0415/week2/ass1/specdata/")
