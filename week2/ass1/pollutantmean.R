@@ -15,7 +15,7 @@ pollutantmean <- function(directory, pollutant, id = 1:332) {
   ## the name of the pollutant for which we will calculate the
   ## mean; either "sulfate" or "nitrate".
   
-  specdata <- dir(directory, pattern = ".csv", recursive = TRUE)[id]
+  specdata <- dir(directory, pattern = ".csv", recursive = TRUE, full.names = TRUE)[id]
   sub.specdata <- lapply(specdata, read.csv, header = TRUE, sep = ",")
   results <- unlist(lapply(sub.specdata, function(f){
   f[, pollutant]
