@@ -18,6 +18,7 @@ corr <- function(directory, threshold = 0) {
         ## Return a numeric vector of correlations
         
         specdata <- dir(directory, pattern = ".csv", recursive = TRUE, full.names = TRUE)
+        correlations <- vector("numeric", length = 0)
         for(file in specdata){
                 data <- read.csv(file)
                 good <- complete.cases(data)
@@ -28,14 +29,9 @@ corr <- function(directory, threshold = 0) {
                         sulfate <- data_na_rm$sulfate
                         nitrate <- data_na_rm$nitrate
                         cor_sul_nit <- cor(sulfate, nitrate)
-                        print(cor_sul_nit)
+                        correlations <- c(correlations, cor_sul_nit)
                 }
         }
+        
+        return(correlations)
 }
-
-cr <- corr("specdata", 150)
-head(cr)
-## [1] -0.01896 -0.14051 -0.04390 -0.06816 -0.12351 -0.07589
-# summary(cr)
-##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
-## -0.2110 -0.0500  0.0946  0.1250  0.2680  0.7630
